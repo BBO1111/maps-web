@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Вибір адреси</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-zJbgN6Jf21rluzDuOKvgVJ6ff_Ccf4s&libraries=places&language=uk"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 1.5rem;
+            background: #ffffff;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2AABEE;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        #confirm-box {
+            display: none;
+        }
+
+        #selected-address {
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h2>Введіть адресу</h2>
+    <input id="autocomplete" type="text" placeholder="Почніть вводити адресу..." />
+
+    <div id="confirm-box">
+        <p>Ви обрали:</p>
+        <div id="selected-address"></div>
+        <button onclick="sendToTelegram()">Підтвердити адресу</button>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let selectedAddress = "";
+
+        function initAutocomplete() {
+            const input = document.getElementById('autocomplete');
+            const autocomplete = new google.maps.places.Autocomplete(input, {
+                types: ['geocode'],
+                componentRestrictions: { country: 'ua' }
+            });
+
+            autocomplete.addListener('place_changed', function () {
+                const place = autocomplete.getPlace();
+                selectedAddress = place.formatted_address;
+
+                document.getElementById('selected-address').innerText = selectedAddress;
+                document.getElementById('confirm-box').style.display = 'block';
+            });
+        }
+
+        function sendToTelegram() {
+            if (selectedAddress) {
+                tg.sendData(selectedAddress);
+                tg.close();
+            }
+        }
+
+        window.onload = initAutocomplete;
+    </script>
+</body>
+</html>
