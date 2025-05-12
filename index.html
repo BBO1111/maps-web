@@ -76,11 +76,12 @@
 
 function sendToTelegram() {
     if (selectedAddress) {
-        console.log("✅ Надсилаємо до Telegram:", selectedAddress); 
+        alert("Надсилаємо адресу: " + selectedAddress);  // ⬅️ Це видно навіть у Telegram
         tg.sendData(selectedAddress);
         tg.close();
     }
 }
+
 
 
 
