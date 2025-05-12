@@ -74,12 +74,15 @@
             });
         }
 
-        function sendToTelegram() {
+function sendToTelegram() {
     if (selectedAddress) {
+        console.log("✅ Надсилаємо до Telegram:", selectedAddress); 
         tg.sendData(selectedAddress);
-        setTimeout(() => tg.close(), 500); // ⏱ дати час Telegram
+        tg.close();
     }
 }
+
+
 
 
         window.onload = initAutocomplete;
