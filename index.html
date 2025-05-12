@@ -75,11 +75,12 @@
         }
 
         function sendToTelegram() {
-            if (selectedAddress) {
-                tg.sendData(selectedAddress);
-                tg.close();
-            }
-        }
+    if (selectedAddress) {
+        tg.sendData(selectedAddress);
+        setTimeout(() => tg.close(), 500); // ⏱ дати час Telegram
+    }
+}
+
 
         window.onload = initAutocomplete;
     </script>
